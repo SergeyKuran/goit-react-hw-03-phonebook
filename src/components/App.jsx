@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { nanoid } from 'nanoid';
+// import { nanoid } from 'nanoid';
 
 // Імпорт компонентів
 import ContactForm from './ContactForm';
@@ -27,7 +27,9 @@ class App extends Component {
 
   // Метод добавлення об'єкта у масив
   addObject = props => {
-    const find = this.state.contacts.find(el => el.name === props.name);
+    const find = this.state.contacts.find(
+      el => el.name.toLowerCase() === props.name.toLowerCase()
+    );
 
     // Умова
     if (find) {
@@ -45,17 +47,22 @@ class App extends Component {
       filter: evt.target.value,
     });
   };
+
   componentDidUpdate(nextProps, nextState) {
-    localStorage.setItem('contacts', JSON.stringify(nextProps));
+    const data = localStorage.setItem('contacts', JSON.stringify(nextProps));
+    console.log(data, 'data');
+    this.setState({ contacts: data });
   }
 
   componentDidMount() {
-    const data = localStorage.getItem('contacts');
-    const result = JSON.parse(data);
-    if (result) {
-      localStorage.getItem();
-    }
-    console.log('object');
+    // const data = localStorage.getItem('contacts');
+    // console.log(data);
+    // const result = JSON.parse(data);
+    // console.log(result);
+    // if (result) {
+    // localStorage.getItem();
+    // }
+    //   console.log('object no');
   }
 
   render() {
@@ -69,13 +76,12 @@ class App extends Component {
         <div className={css.contacts}>
           <h3>Contacts</h3>
           <Filter filter={filter} onChange={this.onChange} />
-          {filter && (
-            <ContactList
-              contacts={contacts}
-              filter={filter}
-              deleteObject={this.deleteObject}
-            />
-          )}
+
+          <ContactList
+            contacts={contacts}
+            filter={filter}
+            deleteObject={this.deleteObject}
+          />
         </div>
       </>
     );
