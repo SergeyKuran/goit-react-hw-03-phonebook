@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-// import { nanoid } from 'nanoid';
-
 // Імпорт компонентів
 import ContactForm from './ContactForm';
 import Filter from './Filter';
@@ -36,8 +34,8 @@ class App extends Component {
       return alert(`${props.name} is already in contacts`);
     }
 
-    this.setState(prevetState => {
-      return { contacts: [...prevetState.contacts, props] };
+    this.setState(prevState => {
+      return { contacts: [...prevState.contacts, props] };
     });
   };
 
@@ -48,21 +46,18 @@ class App extends Component {
     });
   };
 
-  componentDidUpdate(nextProps, nextState) {
-    const data = localStorage.setItem('contacts', JSON.stringify(nextProps));
-    console.log(data, 'data');
-    this.setState({ contacts: data });
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+    console.log('update');
   }
 
   componentDidMount() {
-    // const data = localStorage.getItem('contacts');
-    // console.log(data);
-    // const result = JSON.parse(data);
-    // console.log(result);
-    // if (result) {
-    // localStorage.getItem();
-    // }
-    //   console.log('object no');
+    const getData = localStorage.getItem('contacts');
+    const dataParse = JSON.parse(getData);
+
+    this.setState({ contacts: dataParse });
   }
 
   render() {
