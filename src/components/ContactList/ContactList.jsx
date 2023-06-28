@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 import css from '../ContactList/ContactList.module.css';
 
 // Компонеет для рендеру списку контактів
-const ContactList = ({ contacts, filter, deleteObject }) => (
+const ContactList = ({ contacts, value, deleteObject }) => (
   <div>
     <ul className={css.ul}>
       {contacts
-        .filter(el => el.name.toLowerCase().includes(filter.toLowerCase()))
+        .filter(el => el.name.toLowerCase().includes(value.toLowerCase()))
         .map(({ id, name, number }) => (
           <li key={id}>
             {name}: {number}
@@ -29,7 +29,7 @@ const ContactList = ({ contacts, filter, deleteObject }) => (
 
 ContactList.propTypes = {
   contacts: PropTypes.array.isRequired,
-  filter: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
   deleteObject: PropTypes.func.isRequired,
 };
 

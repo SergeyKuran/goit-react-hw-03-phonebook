@@ -73,7 +73,7 @@ class App extends Component {
 
           <ContactList
             contacts={contacts}
-            filter={filter}
+            value={filter}
             deleteObject={this.deleteObject}
           />
         </div>
