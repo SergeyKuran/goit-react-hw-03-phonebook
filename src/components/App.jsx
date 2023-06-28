@@ -14,14 +14,19 @@ class App extends Component {
     filter: '',
   };
 
-  // // Метод виделення об'єкта з масиву
-  deleteObject = id => {
-    this.setState(prevetState => {
-      return {
-        contacts: prevetState.contacts.filter(el => el.id !== id),
-      };
-    });
-  };
+  componentDidMount() {
+    const getData = localStorage.getItem('contacts');
+    const dataParse = JSON.parse(getData);
+    if (dataParse) {
+      this.setState({ contacts: dataParse });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
 
   // Метод добавлення об'єкта у масив
   addObject = props => {
@@ -39,25 +44,20 @@ class App extends Component {
     });
   };
 
+  // // Метод видалення об'єкта з масиву
+  deleteObject = id => {
+    this.setState(prevetState => {
+      return {
+        contacts: prevetState.contacts.filter(el => el.id !== id),
+      };
+    });
+  };
   // Метод стягування данних при пошуку
   onChange = evt => {
     this.setState({
       filter: evt.target.value,
     });
   };
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  }
-
-  componentDidMount() {
-    const getData = localStorage.getItem('contacts');
-    const dataParse = JSON.parse(getData);
-
-    this.setState({ contacts: dataParse });
-  }
 
   render() {
     const { contacts, filter } = this.state;
